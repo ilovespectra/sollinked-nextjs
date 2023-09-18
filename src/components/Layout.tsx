@@ -6,6 +6,21 @@ import { CookiesProvider } from 'react-cookie';
 import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
+import {
+  BackpackWalletAdapter,
+  BraveWalletAdapter,
+  CoinbaseWalletAdapter,
+  CoinhubWalletAdapter,
+  GlowWalletAdapter,
+  LedgerWalletAdapter,
+  MathWalletAdapter,
+  PhantomWalletAdapter,
+  SlopeWalletAdapter,
+  SolflareWalletAdapter,
+  SolletWalletAdapter,
+  SpotWalletAdapter,
+  TorusWalletAdapter,
+} from "@solana/wallet-adapter-wallets"
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Provider as SollinkedProvider } from '@sollinked/sdk';
@@ -91,24 +106,31 @@ const Layout = ({
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);
   
     const wallets = useMemo(
-        () => [
-            /**
-             * Wallets that implement either of these standards will be available automatically.
-             *
-             *   - Solana Mobile Stack Mobile Wallet Adapter Protocol
-             *     (https://github.com/solana-mobile/mobile-wallet-adapter)
-             *   - Solana Wallet Standard
-             *     (https://github.com/solana-labs/wallet-standard)
-             *
-             * If you wish to support a wallet that supports neither of those standards,
-             * instantiate its legacy wallet adapter here. Common legacy adapters can be found
-             * in the npm package `@solana/wallet-adapter-wallets`.
-             */
-            // new UnsafeBurnerWalletAdapter(),
-        ],
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [network]
-    );
+    () => [
+      /**
+       * Select the wallets you wish to support, by instantiating wallet adapters here.
+       *
+       * Common adapters can be found in the npm package `@solana/wallet-adapter-wallets`.
+       * That package supports tree shaking and lazy loading -- only the wallets you import
+       * will be compiled into your application, and only the dependencies of wallets that
+       * your users connect to will be loaded.
+       */
+      new PhantomWalletAdapter(),
+      new BackpackWalletAdapter(),
+      new SolflareWalletAdapter(),
+      new LedgerWalletAdapter(),
+      new GlowWalletAdapter(),
+      new BraveWalletAdapter(),
+      new MathWalletAdapter(),
+      new SpotWalletAdapter(),
+      new SlopeWalletAdapter(),
+      new TorusWalletAdapter(),
+      new SolletWalletAdapter(),
+      new CoinhubWalletAdapter(),
+      new CoinbaseWalletAdapter(),
+    ],
+    []
+  )
   
     return (
         <CookiesProvider>
