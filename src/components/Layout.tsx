@@ -129,7 +129,7 @@ const Layout = ({
       new CoinhubWalletAdapter(),
       new CoinbaseWalletAdapter(),
     ],
-    []
+    [network]
   )
   
     return (
